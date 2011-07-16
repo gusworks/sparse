@@ -1,5 +1,3 @@
-require 'strscan'
-
 class Sparse
   def parse(text)
     @scanner = StringScanner.new(text)
@@ -9,6 +7,8 @@ class Sparse
     result = []
     until @scanner.eos?
       case
+        when whitespace || comment
+          # do nothing
         when open_parenthesis
           result << strip
         when quote
@@ -17,13 +17,10 @@ class Sparse
             blowup 'Expected list'
           end
           @scanner.unscan
-        when whitespace || comment
-          #do nothing
         else
           blowup
       end
 
-      # puts "parse rest: ->#{@scanner.rest.bytes.to_a.map{|b| b < 32 ? b : b.chr}}"
     end
 
     result
@@ -31,11 +28,7 @@ class Sparse
   end
 
   private
-  def format_text(text)
-    text.size < 10 ? text : "#{text[0..7]}..."
-  end
-
-  def blowup(message = "Unexpected token #{format(@scanner.rest)}")
+  def blowup(message = "Unexpected token #{@scanner.rest}")
     raise SyntaxError.new "#{message} in position #{@scanner.pos + 1}, line #{@line}, column #{@scanner.pos - @column + 1}"
   end
 
@@ -43,17 +36,17 @@ class Sparse
     current = []
     until close_parenthesis
       start_rest = @scanner.rest
-      whitespace
+
+
 
       case
-        when whitespace
-          # nothing, as usual
+        when whitespace || comment
+          # do nothing
         when open_parenthesis
           current << strip
         when quote
           current << :quote
           unless open_parenthesis || symbol || number # || string
-            p @scanner.rest
             blowup 'Expected a list, symbol or number'
           end
           @scanner.unscan
@@ -64,10 +57,7 @@ class Sparse
           current << eval(@scanner.matched)
       end
 
-#      puts "strip rest: #{@scanner.rest.bytes.to_a.map{|b| b < 32 ? b : b.chr}}"
-
       if start_rest == @scanner.rest
-        p @scanner.rest
         blowup 'Unbalanced brackets'
 
       end
