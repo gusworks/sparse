@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sparse}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Plinio Balduino"]
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "VERSION",
     "lib/sparse.rb",
     "lib/sparse/sparse.rb",
+    "sparse.gemspec",
     "spec/complete_code_spec.rb",
     "spec/empty_lists_spec.rb",
     "spec/invalid_syntax_spec.rb",

@@ -37,8 +37,6 @@ class Sparse
     until close_parenthesis
       start_rest = @scanner.rest
 
-
-
       case
         when whitespace || comment
           # do nothing
@@ -46,13 +44,21 @@ class Sparse
           current << strip
         when quote
           current << :quote
-          unless open_parenthesis || symbol || number # || string
+          unless open_parenthesis || symbol || number
             blowup 'Expected a list, symbol or number'
+          end
+          @scanner.unscan
+        when fn
+          current << :fn
+          unless open_parenthesis
+            blowup 'Expected a list'
           end
           @scanner.unscan
         when symbol
           sym = @scanner.matched
           current << (sym == '- ' ? '-' : sym).to_sym
+        when string
+          current << @scanner.matched
         when number
           current << eval(@scanner.matched)
       end
@@ -91,8 +97,12 @@ class Sparse
     @scanner.scan(/[']/)
   end
 
+  def fn
+    @scanner.scan(/[#]/)
+  end
+
   def symbol
-    @scanner.scan(/([-][^0-9]|[+*\/]|[a-zA-Z\$][a-zA-Z0-9\-\$]*)/)
+    @scanner.scan(/([-][^0-9]|[&+*\/:]|[a-zA-Z\$][a-zA-Z0-9\-\$]*[?]?)/)
   end
 
   def number
@@ -101,6 +111,10 @@ class Sparse
 
   def comment
     @scanner.scan(/^;.*$/)
+  end
+
+  def string
+    @scanner.scan(/"[^"]*"/)
   end
 
 end
