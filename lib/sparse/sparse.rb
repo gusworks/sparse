@@ -58,7 +58,7 @@ class Sparse
           sym = @scanner.matched
           current << (sym == '- ' ? '-' : sym).to_sym
         when string
-          current << @scanner.matched
+          current << eval(@scanner.matched)
         when number
           current << eval(@scanner.matched)
       end
