@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Plinio Balduino"]
-  s.date = %q{2011-07-19}
+  s.date = %q{2011-07-21}
   s.description = %q{Fast and light S-Expression parser}
   s.email = %q{pbalduino+github@gmail.com}
   s.extra_rdoc_files = [
@@ -28,12 +28,16 @@ Gem::Specification.new do |s|
     "lib/sparse.rb",
     "lib/sparse/sparse.rb",
     "sparse.gemspec",
+    "spec/boolean_spec.rb",
     "spec/complete_code_spec.rb",
     "spec/empty_lists_spec.rb",
     "spec/invalid_syntax_spec.rb",
     "spec/nested_lists_spec.rb",
+    "spec/number_spec.rb",
+    "spec/operation_spec.rb",
     "spec/quote_spec.rb",
-    "spec/spec_helper.rb"
+    "spec/spec_helper.rb",
+    "spec/string_spec.rb"
   ]
   s.homepage = %q{http://github.com/pbalduino/sparse}
   s.licenses = ["MIT"]

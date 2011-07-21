@@ -275,4 +275,18 @@ lisp
     end
 
   end
+
+  it 'lucio code' do
+    code = <<lisp
+    (defun whatever 
+      ([] ("empty"))
+      ([x] ("one"))
+      ([x y] ("two"))
+      ([x y & z] ("three or more")))
+    (whatever)
+    (whatever 1)
+    (whatever 1 2)
+    (whatever 1 2 3)
+lisp
+  end
 end

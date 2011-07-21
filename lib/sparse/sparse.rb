@@ -102,7 +102,7 @@ class Sparse
   end
 
   def symbol
-    @scanner.scan(/([-][^0-9]|[&+*\/:]|[a-zA-Z\$][a-zA-Z0-9\-\$]*[?]?)/)
+    @scanner.scan(/([-][^0-9]|[&+*\/:\[\]]|[a-zA-Z\$][a-zA-Z0-9\-\$]*[?]?)/)
   end
 
   def number
