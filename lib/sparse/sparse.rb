@@ -17,6 +17,13 @@ class Sparse
             blowup 'Expected list'
           end
           @scanner.unscan
+        when syntax_quote
+          result << :syntax_quote
+          unless open_parenthesis
+            blowup 'Expected list'
+          end
+          @scanner.unscan
+
         else
           blowup
       end
@@ -46,6 +53,12 @@ class Sparse
           current << :quote
           unless open_parenthesis || symbol || number
             blowup 'Expected a list, symbol or number'
+          end
+          @scanner.unscan
+        when syntax_quote
+          current << :syntax_quote
+          unless open_parenthesis
+            blowup 'Expected a list'
           end
           @scanner.unscan
         when fn
@@ -97,6 +110,10 @@ class Sparse
     @scanner.scan(/[']/)
   end
 
+  def syntax_quote
+    @scanner.scan(/[`]/)
+  end
+  
   def fn
     @scanner.scan(/[#]/)
   end
